@@ -19,12 +19,19 @@ abstract class Sender[T] extends Actor  with ActorLogging {
         if (response.isFailure) {
           log.warning(response.failed.get.toString)
           executor ! SendError
-        } else
-          executor ! SendSuccess(executionTime(response.get))
+        } else{
+          if(isError(response.get)) {
+            executor ! SendError
+          } else {
+            executor ! SendSuccess(executionTime(response.get))
+          }
+        }
       })
     case Finished =>
       close
   }
+
+  def isError(response:T):Boolean = false
 
   def send: Future[T]
 
