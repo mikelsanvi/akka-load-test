@@ -42,7 +42,6 @@ class Executor(numberOfMessages:Long, concurrency:Int,sender: Props)
       worker ! SendMessage
     }
     if (nrOfResults + nrOfErrors == numberOfMessages) {
-      // Stops this actor and all its supervised children
       log.warning(nrOfErrors + " errors")
       log.warning("Execution time: " + (System.currentTimeMillis() - startedTime).toString )
       log.warning("Avg time: " + (totalTook / numberOfMessages).toString )

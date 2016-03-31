@@ -28,4 +28,4 @@ credentials += Credentials(Path.userHome / ".sbt" / ".credentials")
 
 publishArtifact in Test := false
 
-pomIncludeRepository := { _ => false }
+pomIncludeRepository := { _ => true }
