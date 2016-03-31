@@ -8,3 +8,4 @@ case object Execute extends TestMessage
 case object SendMessage extends TestMessage
 case class SendSuccess(took:Long) extends TestMessage
 case object SendError extends TestMessage
+case object Finished extends TestMessage

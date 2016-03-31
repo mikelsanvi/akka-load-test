@@ -6,10 +6,10 @@ import akka.actor.{Props, ActorLogging, Actor}
  * Created by mikelsanvicente on 17/03/16.
  */
 
-class Executor(numberOfMessages:Long, concurrency:Int,sender: Props)
+class Executor(numberOfMessages:Long, concurrency:Int,sender : => Actor)
   extends Actor with ActorLogging {
 
-  val worker = context.actorOf(sender, name = "sender")
+  val worker = context.actorOf(Props(sender), name = "sender")
 
   val startedTime = System.currentTimeMillis()
 
@@ -45,10 +45,8 @@ class Executor(numberOfMessages:Long, concurrency:Int,sender: Props)
       log.warning(nrOfErrors + " errors")
       log.warning("Execution time: " + (System.currentTimeMillis() - startedTime).toString )
       log.warning("Avg time: " + (totalTook / numberOfMessages).toString )
-      Thread.sleep(500)
-      context.stop(self)
+      worker ! Finished
       context.system.shutdown()
-      System.exit(0)
     }
   }
 }

@@ -22,9 +22,13 @@ abstract class Sender[T] extends Actor  with ActorLogging {
         } else
           executor ! SendSuccess(executionTime(response.get))
       })
+    case Finished =>
+      close
   }
 
   def send: Future[T]
+
+  def close: Unit
 
   def executionTime(response:T):Long = {
     -1
