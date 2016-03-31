@@ -21,6 +21,7 @@ abstract class Sender[T] extends Actor  with ActorLogging {
           executor ! SendError
         } else{
           if(isError(response.get)) {
+            log.warning(response.get.toString)
             executor ! SendError
           } else {
             executor ! SendSuccess(executionTime(response.get))
